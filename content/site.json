@@ -1,0 +1,18 @@
+{
+  "year": "2027",
+  "ordinal": "32nd",
+  "name": "Sanjoy K. Mitter LIDS Annual Summit",
+  "short_name": "LIDS Annual Summit",
+  "dates": "February 6–7, 2027",
+  "venue": "Massachusetts Institute of Technology, Cambridge, MA",
+  "tagline": "Research across information, decision systems, learning, optimization, and control.",
+  "description": "A student-organized, student-run conference where LIDS graduate students and postdocs share research with peers and the broader community.",
+  "contact_email": "lids-student-conf-2027@mit.edu",
+  "registration_url": "",
+  "submission_url": "https://docs.google.com/forms/d/e/1FAIpQLSe7mHx5Jq3Y1R6j-qp5OCA5BXpRppXF7RvBAmrYvI1UDQ2Mnw/viewform?usp=dialog",
+  "past_years": [
+    {"year": "2026", "url": "https://lidsconf.mit.edu/2026/"},
+    {"year": "2025", "url": "https://lidsconf.mit.edu/2025/"},
+    {"year": "2024", "url": "https://lidsconf.mit.edu/2024/"}
+  ]
+}

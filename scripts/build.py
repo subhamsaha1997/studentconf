@@ -190,7 +190,7 @@ def home(site, speakers, organizers, news):
     )
     body = f"""<div class="wrap hero"><section>
   <div class="eyebrow">{html.escape(site['dates'])} · {html.escape(site['venue'])}</div>
-  <h1>{html.escape(site['ordinal'])} Annual {html.escape(site['short_name'])}</h1>
+  <h1>{html.escape(site['ordinal'])} {html.escape(site['short_name'])}</h1>
   <p class="lead">{html.escape(site['tagline'])}</p><p>{html.escape(site['description'])}</p>
   <div class="actions"><a class="button" href="{html.escape(site['registration_url'], quote=True)}">Register to attend</a><a class="button secondary" href="{html.escape(site['submission_url'], quote=True)}">Submit a student talk</a></div>
   <p class="muted">Past conferences: {years}</p>

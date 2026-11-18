@@ -8,11 +8,11 @@
     "bio": "Biography to be announced."
   },
   {
-    "name": "Second plenary speaker",
+    "name": "John Langford",
     "role": "Plenary speaker",
-    "affiliation": "Institution to be announced",
+    "affiliation": "Microsoft Research",
     "url": "",
-    "image": "",
+    "image": "langford.jpg",
     "bio": "Biography to be announced."
   }
 ]

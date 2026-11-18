@@ -10,6 +10,7 @@ import json
 import re
 import shutil
 from collections import OrderedDict
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -124,6 +125,9 @@ def page(site, title, body, active):
     }})();
   </script>
   <link rel="stylesheet" href="assets/site.css">
+  <style>
+    .news-feed {{ overflow-y: auto; overscroll-behavior: contain; }}
+  </style>
 </head>
 <body>
   <header class="site-header"><nav class="nav" aria-label="Primary navigation">
@@ -167,6 +171,18 @@ def page(site, title, body, active):
       }}
       people.forEach((person) => organizers.appendChild(person));
     }}
+    const newsFeed = document.querySelector('.news-feed');
+    if (newsFeed) {{
+      const showNewestThree = () => {{
+        const items = Array.from(newsFeed.querySelectorAll('article'));
+        if (items.length <= 3) return;
+        const feedTop = newsFeed.getBoundingClientRect().top;
+        const third = items[2].getBoundingClientRect();
+        newsFeed.style.maxHeight = `${{third.bottom - feedTop}}px`;
+      }};
+      showNewestThree();
+      addEventListener('resize', showNewestThree);
+    }}
   </script>
 </body>
 </html>"""
@@ -180,9 +196,18 @@ def home(site, speakers, organizers, news):
     organizer_list = "".join(
         f"<li>{url_or_text(o['name'], o.get('url', ''))}</li>" for o in organizers
     )
+
+    # Keep the newest announcements at the top.  The page shows the first
+    # three initially; older items remain available by scrolling the feed.
+    def announcement_date(item):
+        try:
+            return datetime.strptime(item.get("date", ""), "%B %d, %Y")
+        except ValueError:
+            return datetime.min
+
     news_items = "".join(
         f"<article><h3>{html.escape(n['title'])}</h3><p>{html.escape(n['text'])}</p><div class=\"date\">{html.escape(n.get('date', ''))}</div></article>"
-        for n in news
+        for n in sorted(news, key=announcement_date, reverse=True)
     )
     years = ", ".join(
         f'<a href="{html.escape(y["url"], quote=True)}" rel="noopener">{html.escape(y["year"])}</a>'
@@ -190,13 +215,13 @@ def home(site, speakers, organizers, news):
     )
     body = f"""<div class="wrap hero"><section>
   <div class="eyebrow">{html.escape(site['dates'])} · {html.escape(site['venue'])}</div>
-  <h1>{html.escape(site['ordinal'])} {html.escape(site['short_name'])}</h1>
+  <h1>{html.escape(site['ordinal'])} Annual {html.escape(site['short_name'])}</h1>
   <p class="lead">{html.escape(site['tagline'])}</p><p>{html.escape(site['description'])}</p>
   <div class="actions"><a class="button" href="{html.escape(site['registration_url'], quote=True)}">Register to attend</a><a class="button secondary" href="{html.escape(site['submission_url'], quote=True)}">Submit a student talk</a></div>
   <p class="muted">Past conferences: {years}</p>
   <section class="section"><h2>Plenary speakers</h2><ul>{speaker_list}</ul></section>
   <section class="section"><h2>Organizing committee</h2><p>Questions? <a href="mailto:{html.escape(site['contact_email'], quote=True)}">Contact the conference co-chairs</a>.</p><ul id="organizer-list">{organizer_list}</ul></section>
-</section><aside class="news"><h2>News</h2>{news_items}</aside></div>"""
+</section><aside class="news"><h2>News</h2><div class="news-feed" tabindex="0" aria-label="Conference news">{news_items}</div></aside></div>"""
     return page(site, "Home", body, "index.html")
 
 
@@ -278,7 +303,7 @@ def program(site, rows):
     return page(
         site,
         "Program",
-        '<div class="wrap"><div class="eyebrow">Conference program</div><h1>Schedule</h1>'
+        '<div class="wrap"><div class="eyebrow">Conference program</div><h1>Schedule</h1><p class="lead">Times and details are maintained in one program spreadsheet.</p>'
         + "".join(days)
         + "</div>",
         "program.html",

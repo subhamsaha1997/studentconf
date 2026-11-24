@@ -14,5 +14,13 @@
     "url": "",
     "image": "langford.jpg",
     "bio": "Biography to be announced."
+  },
+  {
+    "name": "Vivek Borkar",
+    "role": "Plenary speaker",
+    "affiliation": "Indian Institute of Technology, Bombay",
+    "url": "",
+    "image": "borkar.jpg",
+    "bio": "Biography to be announced."
   }
 ]

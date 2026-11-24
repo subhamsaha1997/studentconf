@@ -23,5 +23,10 @@
     "speaker": "Third student speaker",
     "title": "Third student-talk title",
     "abstract": "Replace this sample with the approved abstract."
+  },
+  {
+    "speaker": "Vivek Borkar",
+    "title": "Third plenary talk title",
+    "abstract": "The plenary abstract will be posted after the program is finalized."
   }
 ]
